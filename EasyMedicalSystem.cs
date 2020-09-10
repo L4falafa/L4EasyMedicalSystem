@@ -72,11 +72,16 @@ namespace Lafalafa.L4EasyMedicalSystem
         {
             if (Death.Contains(player.CSteamID))
             {
-
+                
                 player.Player.movement.sendPluginSpeedMultiplier(0);
                 player.Features.GodMode = false;
                 EffectManager.sendUIEffect(10938, 10939, player.CSteamID, true);
                 EffectManager.sendUIEffect(10936, 10937, player.CSteamID, true);
+
+                if (instance.Configuration.Instance.LockScreen == true)
+                {
+                    player.Player.enablePluginWidgetFlag(EPluginWidgetFlags.Modal);
+                }
 
             }
         }
@@ -91,13 +96,16 @@ namespace Lafalafa.L4EasyMedicalSystem
             player.Player.equipment.onEquipRequested += onEquipRequeseted;
             player.Features.GodMode = true;
             player.Bleeding = false;
-            //player.Player.enablePluginWidgetFlag(EPluginWidgetFlags.Modal);
             ChatManager.serverSendMessage(string.Format(instance.Translate("KNOCKED_OUT").Replace('(', '<').Replace(')', '>')), Color.white, null, player.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
             player.Player.equipment.dequip();
             EffectManager.sendUIEffect(10938, 10939, player.CSteamID, true);
             EffectManager.sendUIEffect(10936, 10937, player.CSteamID, true);
             player.Player.movement.sendPluginSpeedMultiplier(0);
             player.Player.stance.checkStance(EPlayerStance.PRONE, true);
+            if (instance.Configuration.Instance.LockScreen == true)
+            {
+                player.Player.enablePluginWidgetFlag(EPluginWidgetFlags.Modal);
+            }
 
 
         }
@@ -108,13 +116,13 @@ namespace Lafalafa.L4EasyMedicalSystem
             switch (buttonName)
             {
                 case "Suicide_Button":
-
                     uplayer.Player.movement.sendPluginSpeedMultiplier(1);
                     uplayer.Features.GodMode = false;
                     uplayer.Suicide();
                     break;
                 case "CallEMS_Button":
                     UnturnedPlayer uclient;
+                    ChatManager.serverSendMessage(string.Format(instance.Translate("HELP_TO_VICTIM").Replace('(', '<').Replace(')', '>')), Color.white, null, uplayer.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
                     Provider.clients.ForEach(client =>
                     {
                         uclient = UnturnedPlayer.FromSteamPlayer(client);
@@ -122,7 +130,7 @@ namespace Lafalafa.L4EasyMedicalSystem
                         {
                             uclient.Player.quests.askSetMarker(uclient.CSteamID, true, uclient.Position);
                             ChatManager.serverSendMessage(string.Format(instance.Translate("HELP_TO_EMS", uplayer.CharacterName).Replace('(', '<').Replace(')', '>')), Color.white, null, uclient.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
-                            ChatManager.serverSendMessage(string.Format(instance.Translate("HELP_TO_VICTIM").Replace('(', '<').Replace(')', '>')), Color.white, null, uplayer.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
+                           
                         }
 
                     });
@@ -145,8 +153,11 @@ namespace Lafalafa.L4EasyMedicalSystem
             player.Player.movement.sendPluginSpeedMultiplier(1);
             EffectManager.askEffectClearByID(10938, player.CSteamID);
             EffectManager.askEffectClearByID(10936, player.CSteamID);
-            //player.Player.disablePluginWidgetFlag(EPluginWidgetFlags.Modal);
             ChatManager.serverSendMessage(string.Format(instance.Translate("SUCCESSFULLY_DEAD").Replace('(', '<').Replace(')', '>')), Color.white, null, player.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
+            if (instance.Configuration.Instance.LockScreen == true)
+            {
+                player.Player.disablePluginWidgetFlag(EPluginWidgetFlags.Modal);
+            }
         }
 
 
@@ -205,8 +216,10 @@ namespace Lafalafa.L4EasyMedicalSystem
 
             if (item.id == Configuration.Instance.DesfribilatorId)
             {
-                v.Player.disablePluginWidgetFlag(EPluginWidgetFlags.Modal);
-
+                if (instance.Configuration.Instance.LockScreen == true)
+                {
+                    v.Player.disablePluginWidgetFlag(EPluginWidgetFlags.Modal);
+                }  
                 Death.Remove(v.CSteamID);
                 v.Player.equipment.onEquipRequested -= onEquipRequeseted;
                 v.Player.equipment.dequip();
