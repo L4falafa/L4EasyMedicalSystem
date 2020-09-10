@@ -45,6 +45,29 @@ namespace Lafalafa.L4EasyMedicalSystem
 
         }
 
+        
+
+        protected override void Unload()
+        {
+
+            UseableConsumeable.onPerformingAid -= UnturnedPlayerEvents_onConsumePerformed;
+            UnturnedPlayerEvents.OnPlayerUpdateHealth -= onPlayerUpdateHealth;
+            UnturnedPlayerEvents.OnPlayerUpdateStance -= UnturnedPlayerEvents_UpdateStance;
+            DamageTool.damagePlayerRequested -= onPlayerDamaged;
+            UnturnedPlayerEvents.OnPlayerDead -= onPlayerDead;
+            U.Events.OnPlayerConnected -= onPlayerConnected;
+            EffectManager.onEffectButtonClicked -= onButtonClicked;
+
+            Logger.Log($"{Assembly.GetName().Name} has been unloaded!", ConsoleColor.Yellow);
+
+        }
+
+
+        #endregion
+
+        #region events
+
+
         private void onPlayerConnected(UnturnedPlayer player)
         {
             if (Death.Contains(player.CSteamID))
@@ -57,25 +80,6 @@ namespace Lafalafa.L4EasyMedicalSystem
 
             }
         }
-
-        protected override void Unload()
-        {
-
-            UseableConsumeable.onPerformingAid -= UnturnedPlayerEvents_onConsumePerformed;
-            UnturnedPlayerEvents.OnPlayerUpdateHealth -= onPlayerUpdateHealth;
-            UnturnedPlayerEvents.OnPlayerUpdateStance -= UnturnedPlayerEvents_UpdateStance;
-            DamageTool.damagePlayerRequested -= onPlayerDamaged;
-            UnturnedPlayerEvents.OnPlayerDead -= onPlayerDead;
-            EffectManager.onEffectButtonClicked -= onButtonClicked;
-
-            Logger.Log($"{Assembly.GetName().Name} has been unloaded!", ConsoleColor.Yellow);
-
-        }
-
-
-        #endregion
-
-        #region events
 
         private void onPlayerUpdateHealth(UnturnedPlayer player, byte health)
         {
