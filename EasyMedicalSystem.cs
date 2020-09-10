@@ -1,4 +1,4 @@
-﻿using Rocket.API;
+using Rocket.API;
 using Rocket.API.Collections;
 using Rocket.API.Serialisation;
 using Rocket.Core;
@@ -29,13 +29,14 @@ namespace Lafalafa.L4EasyMedicalSystem
 
             UseableConsumeable.onPerformingAid += UnturnedPlayerEvents_onConsumePerformed;
             DamageTool.damagePlayerRequested += onPlayerDamaged;
+            U.Events.OnPlayerConnected += onPlayerConnected;
             UnturnedPlayerEvents.OnPlayerUpdateStance += UnturnedPlayerEvents_UpdateStance;
             UnturnedPlayerEvents.OnPlayerDead += onPlayerDead;
             UnturnedPlayerEvents.OnPlayerUpdateHealth += onPlayerUpdateHealth;
             EffectManager.onEffectButtonClicked += onButtonClicked;
 
             Logger.Log("############################", ConsoleColor.Cyan);
-            Logger.Log("#         EasyMedic        #", ConsoleColor.Cyan);
+            Logger.Log("#    EasyMedicalSystem     #", ConsoleColor.Cyan);
             Logger.Log("#       By: Lafalafa       #", ConsoleColor.Cyan);
             Logger.Log("#    discord.gg/eAkMRkv    #", ConsoleColor.Cyan);
             Logger.Log("############################", ConsoleColor.Cyan);
@@ -44,6 +45,18 @@ namespace Lafalafa.L4EasyMedicalSystem
 
         }
 
+        private void onPlayerConnected(UnturnedPlayer player)
+        {
+            if (Death.Contains(player.CSteamID))
+            {
+
+                player.Player.movement.sendPluginSpeedMultiplier(0);
+                player.Features.GodMode = false;
+                EffectManager.sendUIEffect(10938, 10939, player.CSteamID, true);
+                EffectManager.sendUIEffect(10936, 10937, player.CSteamID, true);
+
+            }
+        }
 
         protected override void Unload()
         {
