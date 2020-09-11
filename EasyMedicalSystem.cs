@@ -128,7 +128,7 @@ namespace Lafalafa.L4EasyMedicalSystem
                         uclient = UnturnedPlayer.FromSteamPlayer(client);
                         if (uclient.HasPermission("easymedic.revive"))
                         {
-                            uclient.Player.quests.askSetMarker(uclient.CSteamID, true, uclient.Position);
+                            uclient.Player.quests.askSetMarker(uclient.CSteamID, true, uplayer.Position);
                             ChatManager.serverSendMessage(string.Format(instance.Translate("HELP_TO_EMS", uplayer.CharacterName).Replace('(', '<').Replace(')', '>')), Color.white, null, uclient.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
                            
                         }
@@ -228,7 +228,7 @@ namespace Lafalafa.L4EasyMedicalSystem
                 EffectManager.askEffectClearByID(10936, v.CSteamID);
                 v.Player.equipment.onEquipRequested -= onEquipRequeseted;
                 ChatManager.serverSendMessage(string.Format(instance.Translate("VICTIM_REVIVED").Replace('(', '<').Replace(')', '>')), Color.white, null, v.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
-                ChatManager.serverSendMessage(string.Format(instance.Translate("MEDIC_REVIVE").Replace('(', '<').Replace(')', '>')), Color.white, null, v.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
+                ChatManager.serverSendMessage(string.Format(instance.Translate("MEDIC_REVIVE").Replace('(', '<').Replace(')', '>')), Color.white, null, p.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
             }
 
 
