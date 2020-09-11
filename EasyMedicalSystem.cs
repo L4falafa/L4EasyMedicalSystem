@@ -224,8 +224,8 @@ namespace Lafalafa.L4EasyMedicalSystem
                 v.Player.equipment.onEquipRequested -= onEquipRequeseted;
                 v.Player.equipment.dequip();
                 v.Player.movement.sendPluginSpeedMultiplier(1);
-                EffectManager.askEffectClearByID(10938, p.CSteamID);
-                EffectManager.askEffectClearByID(10936, p.CSteamID);
+                EffectManager.askEffectClearByID(10938, v.CSteamID);
+                EffectManager.askEffectClearByID(10936, v.CSteamID);
                 v.Player.equipment.onEquipRequested -= onEquipRequeseted;
                 ChatManager.serverSendMessage(string.Format(instance.Translate("VICTIM_REVIVED").Replace('(', '<').Replace(')', '>')), Color.white, null, v.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
                 ChatManager.serverSendMessage(string.Format(instance.Translate("MEDIC_REVIVE").Replace('(', '<').Replace(')', '>')), Color.white, null, v.SteamPlayer(), EChatMode.WELCOME, instance.Configuration.Instance.ImageUrl, true);
